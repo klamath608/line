@@ -13,8 +13,8 @@ jobs:
         run: |
           curl -X POST https://api.line.me/v2/bot/message/push \
             -H 'Content-Type: application/json' \
-            -H "Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}" \
+            -H "Authorization: Bearer ${{ secrets.l3qfzac8l2x2aNue/YTRAKbimKYIqbQqkuGgTRqk3PebeQRU0d7DEzMrq0zcsrzfVd44TIWjYuBWlMf+zHrlYTJzZC55FUmm2nq+bOq8LY0+uVwOKB0HbjTAMqNq/jOCQs687YeEpzhj+KAMsijspAdB04t89/1O/w1cDnyilFU= }}" \
             -d '{
-                  "to": "${{ secrets.LINE_USER_ID }}",
+                  "to": "${{ secrets.Uef360c65c710f997a64c572b40fd8251 }}",
                   "messages":[{"type":"text","text":"這是手動測試訊息！"}]
                 }'
