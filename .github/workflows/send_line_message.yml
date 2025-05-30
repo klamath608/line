@@ -1,7 +1,7 @@
 name: Send LINE Message
 
 on:
-  workflow_dispatch:   # 手動觸發事件
+  workflow_dispatch: {}   # 手動觸發事件
   schedule:
     - cron: '0 9 * * *'  # 排程每天早上9點執行（UTC時間）
 
