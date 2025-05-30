@@ -1,20 +1,27 @@
 name: Send LINE Message
 
 on:
-  workflow_dispatch: {}   # 手動觸發事件
+  workflow_dispatch: {}
   schedule:
-    - cron: '0 9 * * *'  # 排程每天早上9點執行（UTC時間）
+    - cron: '0 9 * * *'  # 每天 UTC 9 點（台灣下午 5 點）
 
 jobs:
   send_message:
     runs-on: ubuntu-latest
     steps:
-      - name: Send message to LINE
-        run: |
-          curl -X POST https://api.line.me/v2/bot/message/push \
-            -H 'Content-Type: application/json' \
-            -H "Authorization: Bearer ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}" \
-            -d '{
-                  "to": "${{ secrets.LINE_USER_ID }}",
-                  "messages":[{"type":"text","text":"這是手動測試訊息！"}]
-                }'
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run send_line_message.py
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+        run: python send_line_message.py
