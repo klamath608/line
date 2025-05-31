@@ -226,13 +226,13 @@ def goldsliver():
     inf=f"""
     == 黃金報價 ==
     資料時間: {tw_timexau} 
-    黃金價格: {pricexau} 美元/盎司
+    價格: {pricexau} 美元/盎司
     漲    跌: {chxau} 美元
     漲 跌 幅: {chpxau} %
     
     == 白銀報價 ==
     資料時間: {tw_timexag} 
-    黃金價格: {pricexag} 美元/盎司
+    價格: {pricexag} 美元/盎司
     漲    跌: {chxag} 美元
     漲 跌 幅: {chpxag} %
     
