@@ -289,16 +289,15 @@ def get_usd_exchange_rates(api_key):
         "CNY": "人民幣"
     }
 
-    print(f"💱 匯率更新時間（UTC）：{update_time}\n")
+    msg = f"💱 匯率更新時間（UTC）：{update_time}\n\n"
     for code, name in currencies.items():
         rate = rates.get(code)
         if rate:
-            print(f"1 美元 = {rate:.4f} {name}（{code}）")
+            msg += f"1 美元 = {rate:.4f} {name}（{code}）\n"
         else:
-            print(f"❌ 無法取得 {name}（{code}）匯率")
-
-# 請將下面的 YOUR_API_KEY 替換成你的實際 API 金鑰
-money=get_usd_exchange_rates("ec260df72b83c9dd309c93b0")
+            msg += f"❌ 無法取得 {name}（{code}）匯率\n"
+    return msg
+money = get_usd_exchange_rates("ec260df72b83c9dd309c93b0")
 #-----------------------------------------------------------------------------------------------
 
 message = dj() + "\n" + sp() + "\n" + nasdaq() + "\n" + sox()
