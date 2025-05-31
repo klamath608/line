@@ -193,7 +193,7 @@ sp()
 nasdaq()
 sox()
 message = dj() + "\n" + sp() + "\n" + nasdaq() + "\n" + sox()
-print(message)
+#print(message)
 
 
 line_token = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
