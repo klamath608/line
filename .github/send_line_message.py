@@ -1,3 +1,4 @@
+
 import requests
 import os
 
@@ -45,13 +46,23 @@ def dj():
       j="+"
     else:
       j="-"   
+    
+    msg = f"""=============== 道瓊工業指數 ===============
+    資料時間: {dj_time}
+    道瓊指數: {price2}
+    昨    收: {price1}
+    漲    跌: {j} {change_price.text.strip()}
+    漲 跌 幅: {j} {change_percent.text.strip()}
+    """
+    return msg
+
     # 顯示結果
-    print("=============== 道瓊工業指數 ===============")
-    print("資料時間:", dj_time)
-    print("道瓊指數:", dow_price.text.strip())
-    print("昨    收:", prev_close2.text.strip())
-    print("漲    跌:", j , change_price.text.strip())
-    print("漲 跌 幅:", j , change_percent.text.strip())
+    #print("=============== 道瓊工業指數 ===============")
+    #print("資料時間:", dj_time)
+    #print("道瓊指數:", dow_price.text.strip())
+    #print("昨    收:", prev_close2.text.strip())
+    #print("漲    跌:", j , change_price.text.strip())
+    #print("漲 跌 幅:", j , change_percent.text.strip())
 
                 
 def sp():
@@ -80,12 +91,22 @@ def sp():
     else:
       j="-"   
     
+    msg = f"""=============== S&P500指數 ===============
+    資料時間: {dj_time}
+    S&P 500: {price}
+    昨    收: {close}
+    漲    跌: {j} {change}
+    漲 跌 幅: {j} {percent}
+    """
+    return msg
+    """
     print("================ S&P500指數 ================")
     print("資料時間:", dj_time)
     print("S&P 500:", price)
     print("昨    收:", close)
     print("漲    跌:",j, change)
     print("漲 跌 幅:",j, percent)
+    """
     
 def nasdaq():
     # 找到 NASDAQ 的外層區塊：根據「NASDAQ指數」這個文字往上找 li
@@ -110,14 +131,23 @@ def nasdaq():
     else:
       j="-"   
     
-    
+    msg = f"""=============== NASDAQ ===============
+    資料時間: {dj_time}
+    NASDAQ: {price}
+    昨  收: {close}
+    漲  跌: {j} {change}
+    漲跌幅: {j} {percent}
+    """
+    return msg
+    """
     print("================ NASDAQ指數 ================")
     print("資料時間:", dj_time)
     print("NASDAQ:", price)
     print("昨  收:", close)
     print("漲  跌:",j, change)
     print("漲跌幅:",j, percent)
-
+    """
+    AQ
 def sox():
     # 找到費城半導體指數的外層 li
     sox_card = soup.find('span', string="費城半導體指數").find_parent('li')
@@ -141,20 +171,29 @@ def sox():
     else:
       j="-"   
       
+    msg = f"""=============== 費城半導體指數 ===============
+    資料時間: {dj_time}
+    費城半導體: {price}
+    昨     收: {close}
+    漲     跌: {j} {change}
+    漲  跌  幅: {j} {percent}
+    """
+    return msg
+    """  
     print("============== 費城半導體指數 ==============")
     print("資料時間:", dj_time)
     print("費城半導體:", price)
     print("昨  收:", close)
     print("漲  跌:",j, change)
     print("漲跌幅:",j, percent)
+    """
     
 dj()    
 sp()
 nasdaq()
 sox()
-
-
-
+message = dj() + "\n" + sp() + "\n" + nasdaq() + "\n" + sox()
+print(message)
 
 
 line_token = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
@@ -167,7 +206,7 @@ headers = {
 
 data = {
     "to": user_id,
-    "messages": [{"type": "text", "text": "大家好 這是榴槤機器人第一個 由 Python 程式排程發送的訊息！"}]
+    "messages": [{"type": "text", "text": "大家好 這是榴槤機器人第一個 由 Python 程式排程發送的訊息！"+ message}]
 }
 
 res = requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=data)
