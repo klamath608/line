@@ -284,7 +284,6 @@ def get_usd_exchange_rates(api_key):
     currencies = {
         "TWD": "台幣",
         "JPY": "日圓",
-        "EUR": "歐元",
         "CNY": "人民幣"
     }
 
