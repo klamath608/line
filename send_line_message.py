@@ -147,7 +147,7 @@ def nasdaq():
     print("漲  跌:",j, change)
     print("漲跌幅:",j, percent)
     """
-    AQ
+    
 def sox():
     # 找到費城半導體指數的外層 li
     sox_card = soup.find('span', string="費城半導體指數").find_parent('li')
@@ -188,11 +188,61 @@ def sox():
     print("漲跌幅:",j, percent)
     """
     
-dj()    
-sp()
-nasdaq()
-sox()
+#---------------------------------------------------------------------------
+#黃金白銀報價
+def goldsliver():
+    import json
+    from datetime import datetime, timezone, timedelta
+    headers = {
+    "x-access-token": "goldapi-4r2h6smbc4f5lr-io",
+    "User-Agent": "Mozilla/5.0"}
+    
+    urlxau = "https://www.goldapi.io/api/XAU/USD"  # 查黃金對美元
+    urlxag = "https://www.goldapi.io/api/XAG/USD"  # 查黃金對美元
+    responsexau = requests.get(urlxau, headers=headers)
+    responsexag = requests.get(urlxag, headers=headers)
+    dataxau=responsexau.json()    
+    dataxag=responsexag.json()
+    #print(data)
+    
+    # 建立 UTC 時間
+    tsxau=dataxau['timestamp']
+    utc_timexau = datetime.fromtimestamp(tsxau, tz=timezone.utc)
+    # 加上台灣的時區（UTC+8）
+    tw_timexau = utc_timexau + timedelta(hours=8)
+    pricexau=dataxau["price"] #黃金現價
+    chxau=dataxau["ch"]
+    chpxau=dataxau["chp"]
+    
+     # 建立 UTC 時間
+    tsxag=dataxag['timestamp']
+    utc_timexag = datetime.fromtimestamp(tsxag, tz=timezone.utc)
+    # 加上台灣的時區（UTC+8）
+    tw_timexag = utc_timexag + timedelta(hours=8)
+    pricexag=dataxag["price"] #黃金現價
+    chxag=dataxag["ch"]
+    chpxag=dataxag["chp"]
+    
+    inf=f"""
+    == 黃金報價 ==
+    資料時間: {tw_timexau} 
+    黃金價格: {pricexau} 美元/盎司
+    漲    跌: {chxau} 美元
+    漲 跌 幅: {chpxau} %
+    
+    == 白銀報價 ==
+    資料時間: {tw_timexag} 
+    黃金價格: {pricexag} 美元/盎司
+    漲    跌: {chxag} 美元
+    漲 跌 幅: {chpxag} %
+    
+    """
+    #print(inf)
+    return inf   
+#--------------------------------------------------------------------------------------------
+
 message = dj() + "\n" + sp() + "\n" + nasdaq() + "\n" + sox()
+goldinf = goldsliver()
 #print(message)
 
 
@@ -206,7 +256,7 @@ headers = {
 
 data = {
     "to": user_id,
-    "messages": [{"type": "text", "text": "大家好 這是榴槤機器人第一個 由 Python 程式排程發送的訊息！\n"+ message}]
+    "messages": [{"type": "text", "text": "五寶們早安! 榴槤機器人來報告！\n", message, goldinf}]
 }
 
 res = requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=data)
