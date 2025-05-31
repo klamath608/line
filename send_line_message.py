@@ -240,6 +240,66 @@ def goldsliver():
     #print(inf)
     return inf   
 #--------------------------------------------------------------------------------------------
+#美國30年國債殖利率
+def get_30y_yield(api_key):
+    url = "https://api.stlouisfed.org/fred/series/observations"
+    params = {
+        "series_id": "DGS30",
+        "api_key": api_key,
+        "file_type": "json",
+        "sort_order": "desc",
+        "limit": 1
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    try:
+        obs = data["observations"][0]
+        date = obs["date"]
+        value = obs["value"]
+        print(f"美國30年期國債殖利率：{value}%（更新日期：{date}）")
+        return value, date
+    except (KeyError, IndexError):
+        print("讀取資料失敗：", data)
+        return None
+
+# ✅ 將這裡換成你自己的 API 金鑰
+us30rate = get_30y_yield("b8bc49ca47acb7dada9fdd889ab66928")
+
+#---------------------------------------------------------------
+#匯率
+def get_usd_exchange_rates(api_key):
+    url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/USD"
+    response = requests.get(url)
+    data = response.json()
+
+    if data["result"] != "success":
+        print("讀取匯率資料失敗：", data)
+        return
+
+    rates = data["conversion_rates"]
+    update_time = data["time_last_update_utc"]
+
+    currencies = {
+        "TWD": "台幣",
+        "JPY": "日圓",
+        "EUR": "歐元",
+        "GBP": "英鎊",
+        "CNY": "人民幣"
+    }
+
+    print(f"💱 匯率更新時間（UTC）：{update_time}\n")
+    for code, name in currencies.items():
+        rate = rates.get(code)
+        if rate:
+            print(f"1 美元 = {rate:.4f} {name}（{code}）")
+        else:
+            print(f"❌ 無法取得 {name}（{code}）匯率")
+
+# 請將下面的 YOUR_API_KEY 替換成你的實際 API 金鑰
+money=get_usd_exchange_rates("ec260df72b83c9dd309c93b0")
+#-----------------------------------------------------------------------------------------------
 
 message = dj() + "\n" + sp() + "\n" + nasdaq() + "\n" + sox()
 goldinf = goldsliver()
@@ -258,7 +318,9 @@ data = {
     "to": user_id,
     "messages": [ {"type": "text", "text": "五寶們早安! 榴槤機器人來報告！"},
         {"type": "text", "text": message},
-        {"type": "text", "text": goldinf}]
+        {"type": "text", "text": goldinf},
+        {"type": "text", "text": us30rate},
+        {"type": "text", "text": money}]
 }
 
 res = requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=data)
