@@ -258,7 +258,7 @@ def get_30y_yield(api_key):
         obs = data["observations"][0]
         date = obs["date"]
         value = obs["value"]
-        print(f"美國30年國債殖利率：{value}%（更新日期：{date}）")
+        print(f"美國30年國債殖利率：{value}%（更新日期：）")
         return value, date
     except (KeyError, IndexError):
         print("讀取資料失敗：", data)
