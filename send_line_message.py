@@ -285,7 +285,6 @@ def get_usd_exchange_rates(api_key):
         "TWD": "台幣",
         "JPY": "日圓",
         "EUR": "歐元",
-        "GBP": "英鎊",
         "CNY": "人民幣"
     }
 
