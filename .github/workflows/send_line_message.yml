@@ -3,7 +3,7 @@ name: Send LINE Message
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '0 9 * * *'  # 每天 UTC 9 點（台灣下午 5 點）
+    - cron: '0 2 * * *'  # 每天 UTC 9 點（台灣下午 5 點）
 
 jobs:
   send_message:
