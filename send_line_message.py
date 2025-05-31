@@ -256,7 +256,9 @@ headers = {
 
 data = {
     "to": user_id,
-    "messages": [{"type": "text", "text": "五寶們早安! 榴槤機器人來報告！\n", message, goldinf}]
+    "messages": [ {"type": "text", "text": "五寶們早安! 榴槤機器人來報告！"},
+        {"type": "text", "text": message},
+        {"type": "text", "text": goldinf}]
 }
 
 res = requests.post("https://api.line.me/v2/bot/message/push", headers=headers, json=data)
